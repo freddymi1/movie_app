@@ -9,8 +9,8 @@ interface Props {
 }
 const TopMovie = ({ movie }: Props) => {
   return (
-    <Link href={`/movies/${movie.movie_id}`} asChild>
-      <TouchableOpacity className="w-[150px] px-2">
+    <Link href={`/movie/${movie.movie_id}`} asChild>
+      <TouchableOpacity className="w-[150px] relative px-2">
         <Image
           source={{
             uri: movie.poster_url

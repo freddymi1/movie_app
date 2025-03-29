@@ -9,7 +9,7 @@ interface Props {
 }
 const Moviecard = ({ movie }: Props) => {
   return (
-    <Link href={`/movies/${movie.id}`} asChild>
+    <Link href={`/movie/${movie.id}`} asChild>
       <TouchableOpacity className="w-[30%]">
         <Image
           source={{

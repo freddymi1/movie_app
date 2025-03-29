@@ -1,13 +1,10 @@
 import Moviecard from "@/components/Moviecard";
-import SearchBar from "@/components/SearchBar";
 import TopBar from "@/components/TopBar";
 import TopMovie from "@/components/TopMovie";
-import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetchMovies from "@/hooks/useFetchMovies";
-import { fetchMovies, fetchTopMovies } from "@/services/api";
+import { fetchMovies } from "@/services/api";
 import { fetchTrendingMovies } from "@/services/appwrite";
-import { Link, useRouter } from "expo-router";
 import {
   ActivityIndicator,
   FlatList,
@@ -33,11 +30,6 @@ export default function Index() {
   return (
     <>
       <TopBar logo={""} label="Dashboard" />
-      <StatusBar
-        translucent={true} // Rend la barre transparente (Android)
-        backgroundColor="transparent" // Couleur de fond transparente
-        barStyle="light-content" // Texte blanc (ou "dark-content")
-      />
 
       <View className="flex-1 bg-primary">
         <Image
