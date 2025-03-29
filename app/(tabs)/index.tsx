@@ -6,6 +6,7 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import useFetchMovies from "@/hooks/useFetchMovies";
 import { fetchMovies, fetchTopMovies } from "@/services/api";
+import { fetchTrendingMovies } from "@/services/appwrite";
 import { Link, useRouter } from "expo-router";
 import {
   ActivityIndicator,
@@ -14,13 +15,10 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 
-
 export default function Index() {
-  const router = useRouter();
   const {
     data: movies,
     loading: moviesLoading,
@@ -28,7 +26,9 @@ export default function Index() {
   } = useFetchMovies(() => fetchMovies({ query: "" }));
   const {
     data: topMovies,
-  } = useFetchMovies(() => fetchTopMovies());
+    loading: trendLoading,
+    error: trendError,
+  } = useFetchMovies(() => fetchTrendingMovies(), true);
 
   return (
     <>
@@ -45,6 +45,7 @@ export default function Index() {
           className="absolute flex-1 w-full z-0"
           resizeMode="cover"
         />
+
         <ScrollView
           className="flex-1 px-5"
           showsVerticalScrollIndicator={false}
@@ -53,20 +54,28 @@ export default function Index() {
             paddingBottom: 10,
           }}
         >
-          {/* <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" /> */}
-
           <View className="mt-3 w-full">
             <Text className="text-lg text-white font-bold mt-5 mb-3">
               Popular movies
             </Text>
-            <FlatList
-              data={topMovies}
-              horizontal
-              // pagingEnabled
-              showsHorizontalScrollIndicator={true}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <TopMovie movie={item}/>}
-            />
+
+            {trendLoading ? (
+              <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                className="mt-10 self-center"
+              />
+            ) : trendError ? (
+              <Text>Error: {trendError?.message}</Text>
+            ) : (
+              <FlatList
+                data={topMovies}
+                horizontal
+                showsHorizontalScrollIndicator={true}
+                keyExtractor={(item) => item.movie_id.toString()}
+                renderItem={({ item }) => <TopMovie movie={item} />}
+              />
+            )}
           </View>
 
           {moviesLoading ? (
@@ -79,7 +88,6 @@ export default function Index() {
             <Text>Error: {moviesError?.message}</Text>
           ) : (
             <View className="flex-1 mt-5">
-
               <>
                 <Text className="text-lg text-white font-bold mt-5 mb-3">
                   Latest movies

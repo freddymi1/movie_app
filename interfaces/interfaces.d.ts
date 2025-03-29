@@ -16,6 +16,7 @@ export interface Movie {
 }
 
 export interface TrendingMovie {
+  document_id: string
   searchTerm: string;
   movie_id: number;
   title: string;

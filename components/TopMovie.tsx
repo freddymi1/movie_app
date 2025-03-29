@@ -1,20 +1,20 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { Movie } from "@/interfaces/interfaces";
+import { Movie, TrendingMovie } from "@/interfaces/interfaces";
 import { Link } from "expo-router";
 import { icons } from "@/constants/icons";
 
 interface Props {
-  movie: Movie;
+  movie: TrendingMovie;
 }
 const TopMovie = ({ movie }: Props) => {
   return (
-    <Link href={`/movies/${movie.id}`} asChild>
-      <TouchableOpacity className="w-[200px] px-2">
+    <Link href={`/movies/${movie.movie_id}`} asChild>
+      <TouchableOpacity className="w-[150px] px-2">
         <Image
           source={{
-            uri: movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            uri: movie.poster_url
+              ? `${movie.poster_url}`
               : "https://placehold.com/600*400/1a1a1a/ffffff.png",
           }}
           className="w-full h-52 rounded-lg"
@@ -27,12 +27,12 @@ const TopMovie = ({ movie }: Props) => {
           <View className="flex-row gap-x-1 items-center">
             <Image source={icons.star} className="size-4" />
             <Text className="text-xs text-white font-bold uppercase">
-              {Math.round(movie.vote_average / 2)}
+              {Math.round(movie.count)}
             </Text>
           </View>
-          <Text className="text-xs text-light-300 font-medium mt-1">
-            {movie.release_date?.split("-")[0]}
-          </Text>
+          {/* <Text className="text-xs text-light-300 font-medium mt-1">
+            {movie.?.split("-")[0]}
+          </Text> */}
         </View>
       </TouchableOpacity>
     </Link>
